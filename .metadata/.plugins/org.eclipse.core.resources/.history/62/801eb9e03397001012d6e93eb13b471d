@@ -1,0 +1,88 @@
+package com.example.demo.rezervacija;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.demo.VoziloService;
+import com.example.demo.kompanija.KompanijaService;
+import com.example.demo.korisnik.KorisnikService;
+import com.example.demo.trajekti.TrajektService;
+
+import model.Korisnik;
+import model.Rezervacija;
+import model.Trajekt;
+import model.Vozilo;
+
+@Controller
+public class RezervacijaController {
+
+	@Autowired private RezervacijaService rezService;
+	@Autowired private KompanijaService kompService;
+	@Autowired private TrajektService trajektService;
+	@Autowired private KorisnikService korisnikService;
+	@Autowired private VoziloService voziloService;
+	
+	@GetMapping("/rezervacije")
+	public String getAllRezervacije(Model model) {
+		List<Rezervacija> listaRezervacija = rezService.izlistajSve();
+		model.addAttribute("prikaziListuRezervacija", listaRezervacija);
+		return "rezervacije";
+	}
+	
+	@GetMapping("/rezervacije/new")
+	public String prikaziNovuFormu(Model model) {
+		model.addAttribute("rezervacije", new Rezervacija());
+		model.addAttribute("pageTitle", "Dodaj novu rezervaciju");
+		return "rezervacije_form";
+	}
+	
+	@GetMapping("/rezervacije/save")
+	public String sacuvajRezervaciju(Rezervacija rezervacija, RedirectAttributes ra) {
+		rezervacija.setDatumRezervacije(LocalDateTime.now());
+		rezervacija.izracunajCenu();
+		rezService.sacuvaj(rezervacija);
+		ra.addFlashAttribute("message", "Rezervacija uspesno dodata");
+		return "redirect:/rezervacije";
+	}
+	
+	@GetMapping("/rezervacije/delete/{id}")
+	public String obrisiRezervaciju(@PathVariable("id") Integer id, RedirectAttributes ra) {
+		try {
+			rezService.obrisiRezervaciju(id);
+		} catch (ReservationNotFound e) {
+			// TODO Auto-generated catch block
+			ra.addFlashAttribute("message", "Rezervacija je uspesno obrisana");
+		}
+		return "redirect:/rezervacije";
+	}
+	
+	@ModelAttribute("korisnik")
+	public String prikaziListuKorisnika(Model model) {
+		List<Korisnik> listaKorisnika = korisnikService.izlistajSve();
+		model.addAttribute("prikaziListuKorisnika", listaKorisnika);
+		return "rezervacije_form";
+	}
+	
+	@ModelAttribute("vozilo")
+	public String prikaziListuVozila(Model model) {
+		List<Vozilo> listaVozila = voziloService.izlistajSve();
+		model.addAttribute("prikaziListuVozila", listaVozila);
+		return "rezervacije_form";
+	}
+	
+	@ModelAttribute("trajekt")
+	public String prikaziListuTrajekta(Model model) {
+		List<Trajekt> listaTrajekta = trajektService.izlistajSve();
+		model.addAttribute("prikaziListuTrajekta", listaTrajekta);
+		return "rezervacije_form";
+	}
+	
+}

@@ -1,0 +1,9 @@
+package com.example.demo;
+
+public class CompanyNotFound extends Throwable{
+
+	public CompanyNotFound(String message) {
+		super(message);
+	}
+	
+}

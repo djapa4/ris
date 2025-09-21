@@ -1,0 +1,104 @@
+package model;
+
+import java.io.Serializable;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+
+
+/**
+ * The persistent class for the rezervacija database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Rezervacija.findAll", query="SELECT r FROM Rezervacija r")
+public class Rezervacija implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="rezervacija_id")
+	private int rezervacijaId;
+
+	@Column(name="broj_karata")
+	private int brojKarata;
+
+	@Column(name="cena_ukupna")
+	private BigDecimal cenaUkupna;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="datum_rezervacije")
+	private Date datumRezervacije;
+
+	//bi-directional many-to-one association to Korisnik
+	@ManyToOne
+	private Korisnik korisnik;
+
+	//bi-directional many-to-one association to Trajekt
+	@ManyToOne
+	private Trajekt trajekt;
+
+	//bi-directional many-to-one association to Vozilo
+	@ManyToOne
+	private Vozilo vozilo;
+
+	public Rezervacija() {
+	}
+
+	public int getRezervacijaId() {
+		return this.rezervacijaId;
+	}
+
+	public void setRezervacijaId(int rezervacijaId) {
+		this.rezervacijaId = rezervacijaId;
+	}
+
+	public int getBrojKarata() {
+		return this.brojKarata;
+	}
+
+	public void setBrojKarata(int brojKarata) {
+		this.brojKarata = brojKarata;
+	}
+
+	public BigDecimal getCenaUkupna() {
+		return this.cenaUkupna;
+	}
+
+	public void setCenaUkupna(BigDecimal cenaUkupna) {
+		this.cenaUkupna = cenaUkupna;
+	}
+
+	public Date getDatumRezervacije() {
+		return this.datumRezervacije;
+	}
+
+	public void setDatumRezervacije(Date datumRezervacije) {
+		this.datumRezervacije = datumRezervacije;
+	}
+
+	public Korisnik getKorisnik() {
+		return this.korisnik;
+	}
+
+	public void setKorisnik(Korisnik korisnik) {
+		this.korisnik = korisnik;
+	}
+
+	public Trajekt getTrajekt() {
+		return this.trajekt;
+	}
+
+	public void setTrajekt(Trajekt trajekt) {
+		this.trajekt = trajekt;
+	}
+
+	public Vozilo getVozilo() {
+		return this.vozilo;
+	}
+
+	public void setVozilo(Vozilo vozilo) {
+		this.vozilo = vozilo;
+	}
+
+}

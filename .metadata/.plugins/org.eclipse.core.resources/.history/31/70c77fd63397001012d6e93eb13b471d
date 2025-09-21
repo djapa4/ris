@@ -1,0 +1,13 @@
+package com.example.demo;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import model.Uloga;
+
+public interface UlogaRepository extends JpaRepository<Uloga, Integer>{
+
+	Optional<Uloga> findByNazivUloge(String nazivUloge);
+	
+}

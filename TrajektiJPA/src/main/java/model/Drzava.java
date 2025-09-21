@@ -1,0 +1,69 @@
+package model;
+
+import java.io.Serializable;
+import jakarta.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the drzava database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Drzava.findAll", query="SELECT d FROM Drzava d")
+public class Drzava implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="drzava_id")
+	private int id;
+
+	private String naziv;
+
+	//bi-directional many-to-one association to Luka
+	@OneToMany(mappedBy="drzava", cascade = CascadeType.REMOVE)
+	private List<Luka> lukas;
+
+	public Drzava() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNaziv() {
+		return this.naziv;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+
+	public List<Luka> getLukas() {
+		return this.lukas;
+	}
+
+	public void setLukas(List<Luka> lukas) {
+		this.lukas = lukas;
+	}
+
+	public Luka addLuka(Luka luka) {
+		getLukas().add(luka);
+		luka.setDrzava(this);
+
+		return luka;
+	}
+
+	public Luka removeLuka(Luka luka) {
+		getLukas().remove(luka);
+		luka.setDrzava(null);
+
+		return luka;
+	}
+
+}

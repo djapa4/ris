@@ -1,0 +1,40 @@
+package com.example.demo.korisnik;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import model.Korisnik;
+
+@Service
+public class KorisnikService {
+
+	@Autowired private KorisnikRepository repo;
+	
+	public List<Korisnik> izlistajSve() {
+		return (List<Korisnik>) repo.findAll();
+	}
+	
+	public void sacuvaj(Korisnik korisnik) {
+		repo.save(korisnik);
+	}
+	
+	public Korisnik get(Integer id) throws UserNotFound {
+		Optional<Korisnik> korisnik = repo.findById(id);
+		if(korisnik.isPresent()) {
+			return korisnik.get();
+		}
+		throw new UserNotFound("Ne postoji korisnik sa id: " + id);
+	}
+	
+	public void obrisiKorisnika(Integer id) throws UserNotFound {
+		Long count = repo.countById(id);
+		if(count == null || count == 0) {
+			throw new UserNotFound("Nije pronadjen ni jedan korisnik sa id: " + id);
+		}
+		repo.deleteById(id);
+	}
+	
+}

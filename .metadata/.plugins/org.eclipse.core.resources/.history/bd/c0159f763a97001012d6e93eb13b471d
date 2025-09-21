@@ -1,0 +1,82 @@
+package com.example.demo.drzava;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.demo.luka.LukaNotFound;
+import com.example.demo.luka.LukaService;
+
+import model.Drzava;
+import model.Luka;
+
+@Controller
+public class DrzavaController {
+
+	@Autowired private DrzavaService service;
+	@Autowired private LukaService lukeService;
+
+	@GetMapping("/drzave") 
+	public String prikaziListuDrzava(Model model) {
+		List<Drzava> listaDrzava = service.izlistajSve();
+		model.addAttribute("prikaziListuDrzava", listaDrzava);
+		return "drzave-list";
+	}
+	
+	@GetMapping("/drzave/new")
+	public String prikaziNovuFormu(Model model) {
+		model.addAttribute("drzave", new Drzava());
+		model.addAttribute("pageTitle", "Dodaj novu drzavu");
+		return "country_form";
+	}
+	
+	@GetMapping("/drzave/save")
+	public String sacuvajDrzavu(Drzava drzava, RedirectAttributes ra) {
+		service.sacuvaj(drzava);
+		ra.addFlashAttribute("message", "Drzava je uspesno dodata.");
+		return "redirect:/drzave";
+	}
+	
+	@PostMapping("/drzave/delete/{id}")
+	public String obrisiDrzavu(@PathVariable("id") Integer id, RedirectAttributes ra) throws CountryNotFound {
+		try {
+			service.obrisiDrzavu(id);
+		} catch(CountryNotFound exception) {
+			ra.addFlashAttribute("meesage", "Drzava je uspesno obrisana.");
+		} catch (DataIntegrityViolationException e) {
+	        ra.addFlashAttribute("message", "Nije moguće obrisati drzavu jer postoje trajekti vezani za nju");
+	    }
+		return "redirect:/drzave";
+	}
+	
+	@GetMapping("/drzave/luke/delete/{id}")
+	public String obrisiGradIzDrzave(@PathVariable("id") Integer id, RedirectAttributes ra) throws LukaNotFound {
+		try {
+			lukeService.obrisiLuku(id);
+			ra.addFlashAttribute("message", "Grad je uspesno obrisan");
+		} catch (DataIntegrityViolationException e) {
+			ra.addFlashAttribute("message", "Nije moguce obrisati luku jer postoje trajekti vezani za nju");
+		}
+		return "redirect:/drzave";
+	}
+	
+	@GetMapping("/drzave/luke/{id}")
+	public String getAllLukeZaDrzavu(Model model, @PathVariable("id") Integer id) {
+		List<Luka> listaLuka = lukeService.izlistajSveZaDrzavu(id);
+		model.addAttribute("prikaziListuLukaZaDrzavu", listaLuka);
+		return "gradovi_drzave";
+	}
+	
+}
+
+

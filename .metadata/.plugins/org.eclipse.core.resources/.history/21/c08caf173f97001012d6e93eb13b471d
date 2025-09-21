@@ -1,0 +1,81 @@
+package com.example.demo.trajekti;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.demo.kompanija.KompanijaService;
+import com.example.demo.luka.LukaService;
+
+import model.Kompanija;
+import model.Luka;
+import model.Trajekt;
+
+@Controller
+public class TrajektController {
+
+	@Autowired private TrajektService service;
+	@Autowired private LukaService lukaService;
+	@Autowired private KompanijaService kompanijaService;
+	
+	@GetMapping("/trajekti")
+	public String getAllTrajekti(Model model) {
+		List<Trajekt> listaTrajekta = service.izlistajSve();
+		model.addAttribute("prikaziListuTrajekta", listaTrajekta);
+		return "trajekti";
+	}
+	
+	@GetMapping("/trajekti/new")
+	public String prikaziNovuFormu(Model model) {
+		model.addAttribute("trajekti", new Trajekt());
+		model.addAttribute("pageTitle", "Dodaj novi trajekt");
+		return "trajekti_form";
+	}
+	
+	@PostMapping("/trajekti/save")
+	public String sacuvajTrajekt(Trajekt trajekt, RedirectAttributes ra) {
+		service.sacuvaj(trajekt);
+		ra.addFlashAttribute("message", "Trajekt uspesno dodat");
+		return "redirect:/trajekti";
+	}
+	
+	@GetMapping("/trajekti/delete/{id}")
+	public String obrisiTrajekt(@PathVariable("id") Integer id, RedirectAttributes ra) {
+		try {
+			service.obrisiTrajekt(id);
+		} catch (TrajektNotFound e) {
+			// TODO Auto-generated catch block
+			ra.addFlashAttribute("message", "Trajekt je uspesno obrisan");
+		}
+		return "redirect:/trajekti";
+	}
+	
+	@ModelAttribute("trajekti")
+	public String prikaziListuTrajekta(Model model) {
+		List<Trajekt> listaTrajekta1 = service.izlistajSve();
+		model.addAttribute("prikaziListuTrajekta1", listaTrajekta1);
+		return "trajekt_form";
+	}
+	
+	@ModelAttribute("luke")
+	public String prikaziListuLuka(Model model) {
+		List<Luka> listaLuka = lukaService.izlistajSve();
+		model.addAttribute("prikaziListuLuka", listaLuka);
+		return "trajekt_form";
+	}
+	
+	@ModelAttribute("kompanija")
+	public String prikaziListuKompanija(Model model) {
+		List<Kompanija> listaKompanija = kompanijaService.izlistajSve();
+		model.addAttribute("prikaziListuKompanija", listaKompanija);
+		return "trajekt_form";
+	}
+	
+}

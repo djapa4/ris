@@ -1,0 +1,69 @@
+package model;
+
+import java.io.Serializable;
+import jakarta.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the vozilo database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Vozilo.findAll", query="SELECT v FROM Vozilo v")
+public class Vozilo implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="vozilo_id")
+	private int id;
+
+	private String tip;
+
+	//bi-directional many-to-one association to Rezervacija
+	@OneToMany(mappedBy="vozilo")
+	private List<Rezervacija> rezervacijas;
+
+	public Vozilo() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTip() {
+		return this.tip;
+	}
+
+	public void setTip(String tip) {
+		this.tip = tip;
+	}
+
+	public List<Rezervacija> getRezervacijas() {
+		return this.rezervacijas;
+	}
+
+	public void setRezervacijas(List<Rezervacija> rezervacijas) {
+		this.rezervacijas = rezervacijas;
+	}
+
+	public Rezervacija addRezervacija(Rezervacija rezervacija) {
+		getRezervacijas().add(rezervacija);
+		rezervacija.setVozilo(this);
+
+		return rezervacija;
+	}
+
+	public Rezervacija removeRezervacija(Rezervacija rezervacija) {
+		getRezervacijas().remove(rezervacija);
+		rezervacija.setVozilo(null);
+
+		return rezervacija;
+	}
+
+}

@@ -1,0 +1,91 @@
+package model;
+
+import java.io.Serializable;
+import jakarta.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the korisnik database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Korisnik.findAll", query="SELECT k FROM Korisnik k")
+public class Korisnik implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="korisnik_id")
+	private int korisnikId;
+
+	private String gmail;
+
+	private String password;
+
+	//bi-directional many-to-one association to Uloga
+	@ManyToOne
+	private Uloga uloga;
+
+	//bi-directional many-to-one association to Rezervacija
+	@OneToMany(mappedBy="korisnik")
+	private List<Rezervacija> rezervacijas;
+
+	public Korisnik() {
+	}
+
+	public int getKorisnikId() {
+		return this.korisnikId;
+	}
+
+	public void setKorisnikId(int korisnikId) {
+		this.korisnikId = korisnikId;
+	}
+
+	public String getGmail() {
+		return this.gmail;
+	}
+
+	public void setGmail(String gmail) {
+		this.gmail = gmail;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Uloga getUloga() {
+		return this.uloga;
+	}
+
+	public void setUloga(Uloga uloga) {
+		this.uloga = uloga;
+	}
+
+	public List<Rezervacija> getRezervacijas() {
+		return this.rezervacijas;
+	}
+
+	public void setRezervacijas(List<Rezervacija> rezervacijas) {
+		this.rezervacijas = rezervacijas;
+	}
+
+	public Rezervacija addRezervacija(Rezervacija rezervacija) {
+		getRezervacijas().add(rezervacija);
+		rezervacija.setKorisnik(this);
+
+		return rezervacija;
+	}
+
+	public Rezervacija removeRezervacija(Rezervacija rezervacija) {
+		getRezervacijas().remove(rezervacija);
+		rezervacija.setKorisnik(null);
+
+		return rezervacija;
+	}
+
+}

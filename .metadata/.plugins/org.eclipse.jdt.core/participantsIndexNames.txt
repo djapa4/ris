@@ -1,0 +1,21 @@
+INDEX VERSION 1.134
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2971337877.index
+\demospring\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1750976473.index
+\demospring\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1059108325.index
+\drugeTeorijskeSpring\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3060504238.index
+\PozoristeWEB\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2909383165.index
+\drugeTeorijskeSpring\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2501330133.index
+\drugeVezbe\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3245123128.index
+\PozoristeWEB\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\856505438.index
+\drugeTeorijskeSpring\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3205697628.index
+\drugeVezbe\src\main\java
+C:\Users\mmark\eclipse-workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1594373019.index
+\PozoristeWEB\src\main\java

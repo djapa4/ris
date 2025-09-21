@@ -1,0 +1,13 @@
+package com.example.demo;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import model.Luka;
+
+public interface LukaRepository extends JpaRepository<Luka, Integer>{
+
+	public Long countById(Integer id);
+	List<Luka> findByDrzava_Id(Integer id);
+}

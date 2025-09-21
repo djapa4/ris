@@ -1,0 +1,19 @@
+package com.example.demo.vozilo;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import model.Vozilo;
+
+@Service
+public class VoziloService {
+
+	@Autowired private VoziloRepository repo;
+	
+	public List<Vozilo> izlistajSve() {
+		return (List<Vozilo>) repo.findAll();
+	}
+	
+}

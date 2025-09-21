@@ -1,0 +1,54 @@
+package com.example.demo;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import model.Kompanija;
+
+@Controller
+public class KompanijaController {
+
+	@Autowired private KompanijaService service;
+	
+	@GetMapping("/kompanije")
+	public String prikaziListuKompanija(Model model) {
+		List<Kompanija> kompanija = service.izlistajSve();
+		model.addAttribute("prikaziListuKompanija", kompanija);
+		return "kompanije";
+	}
+	
+	@GetMapping("/kompanije/new")
+	public String prikaziNovuFormu(Model model) {
+		model.addAttribute("kompanije", new Kompanija());
+		model.addAttribute("pageTitle", "Dodaj novu kompaniju");
+		return "kompanije_form";
+	}
+	
+	@GetMapping("/kompanije/save")
+	public String sacuvajKompaniju(Kompanija kompanija, RedirectAttributes ra) {
+		service.sacuvaj(kompanija);
+		ra.addFlashAttribute("message", "Kompanija uspesno dodata");
+		return "redirect:/kompanije";
+		}
+	
+	@GetMapping("/kompanije/delete/{id}")
+	public String obrisiKompaniju(@PathVariable("id") Integer id, RedirectAttributes ra) {
+		try {
+			service.obrisiKompaniju(id);
+		} catch (DataIntegrityViolationException e) {
+	        ra.addFlashAttribute("message", "Nije moguće obrisati kompaniju jer postoje trajekti vezani za nju");
+		} catch (CompanyNotFound e) {
+			// TODO Auto-generated catch block
+			ra.addFlashAttribute("message", "Kompanija uspesno obrisana");
+		}
+		return "redirect:/kompanije";
+	}
+	
+}

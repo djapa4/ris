@@ -1,0 +1,9 @@
+package com.example.demo;
+
+public class TrajektNotFound extends Throwable{
+
+	public TrajektNotFound(String message) {
+		super(message);
+	}
+	
+}

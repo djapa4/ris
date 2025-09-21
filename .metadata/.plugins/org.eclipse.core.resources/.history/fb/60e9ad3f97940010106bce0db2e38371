@@ -1,0 +1,5 @@
+package com.example.demo;
+
+public interface UlogaRepository extends JpaRepository<Uloga, Integer>{
+
+}

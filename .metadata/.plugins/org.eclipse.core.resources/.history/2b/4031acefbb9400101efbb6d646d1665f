@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Upravljajte rezervacijama</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-md bg-dark navbar-dark">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" th:href="@{/}">Rezervacija trajekta</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a class="nav-link" th:href="@{/users}">Upravljanje korisnicima</a></li>
+
+      <li><a class="nav-link" th:href="@{/drzave}">Upravljanje drzavama</a></li>
+
+      <li><a class="nav-link" th:href="@{/kompanije}">Upravljanje kompanijama</a></li>
+
+      <li><a class="nav-link" th:href="@{/luke}">Upravljanje lukama</a></li>
+
+      <li><a class="nav-link" th:href="@{/trajekti}">Upravljanje trajektima</a></li>
+
+      <li><a class="nav-link" th:href="@{/rezervacije}">Upravljajte rezervacijama</a></li>
+
+      <li><a class="nav-link" th:href="@{/rezervacije/new}">Rezervisite</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container-fluid text-center">
+    <div><h2>Upravljaj rezervacijama</h2></div>
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Broj trajketa</th>
+                <th>Mail putnika</th>
+                <th>Polazak od</th>
+                <th>Polazak do</th>
+                <th>Vreme polaska</th>
+                <th>Vreme dolaska</th>
+                <th>Broj karata</th>
+                <th>Cena karte</th>
+                <th>Vozilo</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="rezervacije : ${prikaziListuRezervacija}">
+                <tr class="h5 mr-3">
+                    <td>[[${rezervacije.id}]]</td>
+                    <td>[[${rezervacije.trajekt.brojTrajekta}]]</td>
+                    <td>[[${rezervacije.korisnik.gmail}]]</td>
+                    <td>[[${rezervacije.trajekt.luka1.nazivLuke}]]</td>
+                    <td>[[${rezervacije.trajekt.luka2.nazivLuke}]]</td>
+                    <td>[[${rezervacije.trajekt.vremePolaska}]]</td>
+                    <td>[[${rezervacije.trajekt.vremeDolaska}]]</td>
+                    <td>[[${rezervacije.brojKarata}]]</td>
+                    <td>[[${rezervacije.cenaUkupna}]]</td>
+                    <td>[[${rezervacije.vozilo.tip}]]
+                    <td>
+                        <a class="h4 mr-3" th:href="@{'/rezervacije/delete/' + ${rezervacije.id}}"><button type="submit" class="btn btn-danger m-2">Obrisi</button></a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div class="m-2">
+        <a class="h3" th:href="@{/rezervacije/new}">
+            <button type="submit" class="btn btn-success m-2">Dodaj novu rezervaciju</button>
+        </a>
+        <a class="h3" th:href="@{/}">
+            <button type="submit" class="btn btn-secondary m-2">Nazad</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+package com.example.demo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.demo.korisnik.KorisnikRepository;
+import com.example.demo.uloga.UlogaRepository;
+
+import model.Korisnik;
+import model.Uloga;
+
+@Controller
+public class AuthController {
+
+	@Autowired
+	KorisnikRepository korisnikRepo;
+	@Autowired
+	UlogaRepository ulogaRepo;
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	public AuthController(KorisnikRepository korisnikRepo, UlogaRepository ulogaRepo, PasswordEncoder passwordEncoder) {
+		this.korisnikRepo = korisnikRepo;
+		this.ulogaRepo = ulogaRepo;
+		this.passwordEncoder = passwordEncoder;
+	}
+	
+	@GetMapping("/login")
+	public String loginPage() {
+		return "login";
+	}
+	
+	@GetMapping("/register")
+	public String registerPage(Model model) {
+		model.addAttribute("korisnik", new Korisnik());
+		return "register";
+	}
+	
+	@PostMapping("/register")
+	public String registerUser(@ModelAttribute Korisnik korisnik) {
+		korisnik.setPassword(passwordEncoder.encode(korisnik.getPassword()));
+		Uloga ulogaKorisnik = ulogaRepo.findById(2).orElseThrow();
+		korisnik.setUloga(ulogaKorisnik);
+		korisnikRepo.save(korisnik);
+		return "redirect:/login";
+	}
+	
+}

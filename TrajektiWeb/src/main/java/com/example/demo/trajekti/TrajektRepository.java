@@ -1,0 +1,14 @@
+package com.example.demo.trajekti;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import model.Trajekt;
+
+public interface TrajektRepository extends JpaRepository<Trajekt, Integer>{
+
+	public Long countById(Integer id);
+	List<Trajekt> findByLuka1_id(Integer id);
+	
+}

@@ -1,0 +1,156 @@
+package model;
+
+import java.io.Serializable;
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
+
+/**
+ * The persistent class for the trajekt database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Trajekt.findAll", query="SELECT t FROM Trajekt t")
+public class Trajekt implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="trajekt_id")
+	private int id;
+
+	@Column(name="broj_trajekta")
+	private String brojTrajekta;
+
+	private BigDecimal cena;
+
+	@Column(name="naziv_trajekta")
+	private String nazivTrajekta;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="vreme_dolaska")
+	private LocalDateTime vremeDolaska;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="vreme_polaska")
+	private LocalDateTime vremePolaska;
+
+	//bi-directional many-to-one association to Rezervacija
+	@OneToMany(mappedBy="trajekt", cascade = CascadeType.REMOVE)
+	private List<Rezervacija> rezervacijas;
+
+	//bi-directional many-to-one association to Kompanija
+	@ManyToOne
+	private Kompanija kompanija;
+
+	//bi-directional many-to-one association to Luka
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name="luka_od")
+	private Luka luka1;
+
+	//bi-directional many-to-one association to Luka
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name="luka_do")
+	private Luka luka2;
+
+	public Trajekt() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getBrojTrajekta() {
+		return this.brojTrajekta;
+	}
+
+	public void setBrojTrajekta(String brojTrajekta) {
+		this.brojTrajekta = brojTrajekta;
+	}
+
+	public BigDecimal getCena() {
+		return this.cena;
+	}
+
+	public void setCena(BigDecimal cena) {
+		this.cena = cena;
+	}
+
+	public String getNazivTrajekta() {
+		return this.nazivTrajekta;
+	}
+
+	public void setNazivTrajekta(String nazivTrajekta) {
+		this.nazivTrajekta = nazivTrajekta;
+	}
+
+	public LocalDateTime getVremeDolaska() {
+		return this.vremeDolaska;
+	}
+
+	public void setVremeDolaska(LocalDateTime vremeDolaska) {
+		this.vremeDolaska = vremeDolaska;
+	}
+
+	public LocalDateTime getVremePolaska() {
+		return this.vremePolaska;
+	}
+
+	public void setVremePolaska(LocalDateTime vremePolaska) {
+		this.vremePolaska = vremePolaska;
+	}
+
+	public List<Rezervacija> getRezervacijas() {
+		return this.rezervacijas;
+	}
+
+	public void setRezervacijas(List<Rezervacija> rezervacijas) {
+		this.rezervacijas = rezervacijas;
+	}
+
+	public Rezervacija addRezervacija(Rezervacija rezervacija) {
+		getRezervacijas().add(rezervacija);
+		rezervacija.setTrajekt(this);
+
+		return rezervacija;
+	}
+
+	public Rezervacija removeRezervacija(Rezervacija rezervacija) {
+		getRezervacijas().remove(rezervacija);
+		rezervacija.setTrajekt(null);
+
+		return rezervacija;
+	}
+
+	public Kompanija getKompanija() {
+		return this.kompanija;
+	}
+
+	public void setKompanija(Kompanija kompanija) {
+		this.kompanija = kompanija;
+	}
+
+	public Luka getLuka1() {
+		return this.luka1;
+	}
+
+	public void setLuka1(Luka luka1) {
+		this.luka1 = luka1;
+	}
+
+	public Luka getLuka2() {
+		return this.luka2;
+	}
+
+	public void setLuka2(Luka luka2) {
+		this.luka2 = luka2;
+	}
+
+}

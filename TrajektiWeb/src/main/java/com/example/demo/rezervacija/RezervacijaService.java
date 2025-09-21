@@ -1,0 +1,31 @@
+package com.example.demo.rezervacija;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import model.Rezervacija;
+
+@Service
+public class RezervacijaService {
+
+	@Autowired private RezervacijaRepository repo;
+	
+	public List<Rezervacija> izlistajSve() {
+		return (List<Rezervacija>) repo.findAll();
+	}
+	
+	public void sacuvaj(Rezervacija rezervacija) {
+		repo.save(rezervacija);
+	}
+	
+	public void obrisiRezervaciju(Integer id) throws ReservationNotFound {
+		Long count = repo.countById(id);
+		if(count == null || count == 0) {
+			throw new ReservationNotFound("Nije pronadjena niti jedna rezervacija sa id: " + id);
+		}
+		repo.deleteById(id);
+	}
+	
+}

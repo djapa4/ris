@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Welcome to Ferry Booking Application</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+</head>
+<body>
+	<nav th:fragment="navbar"
+		class="navbar navbar-expand-md bg-dark navbar-dark">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" th:href="@{/}">Rezervacija trajekta</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a class="nav-link" th:href="@{/users}">Upravljanje
+						korisnicima</a></li>
+
+				<li><a class="nav-link" th:href="@{/drzave}">Upravljanje
+						drzavama</a></li>
+
+				<li><a class="nav-link" th:href="@{/kompanije}">Upravljanje
+						kompanijama</a></li>
+
+				<li><a class="nav-link" th:href="@{/luke}">Upravljanje
+						lukama</a></li>
+
+				<li><a class="nav-link" th:href="@{/trajekti}">Upravljanje
+						trajektima</a></li>
+
+				<li><a class="nav-link" th:href="@{/rezervacije}">Upravljajte
+						rezervacijama</a></li>
+
+				<li><a class="nav-link" th:href="@{/rezervacije/new}">Rezervisite</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container-fluid text-center">
+		<h1>Welcome to Book Flight Application</h1>
+		<a class="h2" th:href="@{/users}"><button type="submit"
+				class="btn btn-primary">Upravljaj korisnicima</button></a><br> <a
+			class="h2" th:href="@{/drzave}"><button type="submit"
+				class="btn btn-primary">Upravljaj drzavama</button></a><br> <a
+			class="h2" th:href="@{/kompanije}"><button type="submit"
+				class="btn btn-primary">Upravljaj kompanijama</button></a><br> <a
+			class="h2" th:href="@{/luke}"><button type="submit"
+				class="btn btn-primary">Upravljaj lukama</button></a><br> <a
+			class="h2" th:href="@{/trajekti}"><button type="submit"
+				class="btn btn-primary">Upravljaj trajektima</button></a><br> <a
+			class="h2" th:href="@{/rezervacije}"><button type="submit"
+				class="btn btn-primary">Upravljaj rezervacijama</button></a><br> <a
+			class="h2" th:href="@{/rezervacije/new}"><button type="submit"
+				class="btn btn-success">Rezervisite</button></a><br>
+	</div>
+</body>
+</html>
